@@ -1,0 +1,58 @@
+Lab Report: Web Reconnaissance & Defensive Controls
+
+Path: Security Operations (SOC) Focus: Incident Investigation & Endpoint Hardening
+
+1. Objective
+
+The goal of this lab was to transition from theoretical knowledge of SOC roles to the practical investigation of unauthorized web discovery. I performed an analysis of an active directory enumeration attack and implemented defensive measures to mitigate automated reconnaissance.
+
+
+2. Cybersecurity Roles & Responsibilities
+
+During this lab, I explored the distinct functions of the security team and how they collaborate during an investigation:
+
+    SOC Analyst: Responsible for continuous monitoring of security consoles and initial triage of alerts to identify potential threats.
+
+    Threat Hunter: Proactively searches through networks and datasets to detect hidden malicious activity that has evaded existing security controls.
+
+    Incident Responder: Acts as the first line of defense during a confirmed breach, focusing on containment, eradication, and recovery.
+
+    Digital Forensics: Conducts deep-dive investigations into digital evidence to determine the root cause, timeline, and extent of a security incident.
+
+
+3. Technical Investigation: Web Discovery & Enumeration
+
+I conducted a forensic analysis of a "Web Discovery" attack, where an external actor attempted to map the hidden structure of a web application.
+
+    Mechanics: The attacker utilized Directory Enumeration to brute-force hidden paths.
+
+    Observation: I analyzed server responses to identify automated requests targeting common directories like /admin, /config, and /backup.
+
+    Identification: By auditing the HTTP status codes in the logs, I identified the difference between unsuccessful attempts (404 Not Found) and successful discoveries (200 OK).
+
+
+4. Defensive Implementation: Rate Limiting & WAF
+
+To counter the "noisy" nature of directory enumeration, I explored two primary defensive layers:
+Rate Limiting
+
+    Implementation: Configured thresholds to limit the number of requests a single source can send within a specific window (e.g., 60 requests per minute).
+
+    Result: This creates a "workable solution" that makes high-speed automated brute-forcing technically impossible without triggering a 429 (Too Many Requests) block.
+
+Web Application Firewall (WAF)
+
+    Function: Learned the role of a WAF in inspecting incoming HTTP traffic for malicious patterns.
+
+    Application: A WAF can be tuned to detect the specific signatures of common enumeration tools (like Gobuster or Dirbuster), dropping the traffic before it reaches the web server.
+
+
+5. Summary of Findings
+
+    Attack Vector: Automated Directory Brute-forcing.
+
+    Indicator of Compromise (IoC): High-frequency 404 errors followed by a successful 200 OK on a sensitive directory.
+
+    Mitigation Strategy: Implementation of strict Rate Limiting and WAF filtering rules.
+
+Lab Platform: TryHackMe | Documentation Date:01 February 2026 |
